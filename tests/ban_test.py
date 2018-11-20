@@ -20,7 +20,7 @@ class TestBan(CoroboTestCase):
         status_mock = MagicMock()
         type(status_mock).status_code = PropertyMock(return_value=200)
         mockreq.post.return_value = status_mock
-
+        
         fake_room_data = [
             {'id': '130', 'uri': 'coala/coala'},
             {'id': '234', 'name': 'Nitanshu'},
@@ -28,6 +28,9 @@ class TestBan(CoroboTestCase):
         ]
         mockjson.loads.return_value = fake_room_data
         testbot = self
+        testbot.assertCommand('!ban @@sladyn',
+                              'sladyn has been banned from: coala/coala, '
+                              'coala/coala-bears')
         testbot.assertCommand('!ban @nvzard',
                               'nvzard has been banned from: coala/coala, '
                               'coala/coala-bears')

@@ -3,7 +3,6 @@ import json
 
 from errbot import BotPlugin, botcmd
 
-
 class Ban(BotPlugin):
     """
     Ban/Unban from all rooms at once.
@@ -20,7 +19,7 @@ class Ban(BotPlugin):
 
         if sinner.startswith('@'):
             sinner = sinner[1:]
-
+        
         joined_rooms = self.bot_config.ROOMS_TO_JOIN
         headers = {
             'Content-Type': 'application/json',
