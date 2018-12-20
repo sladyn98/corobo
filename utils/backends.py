@@ -1,7 +1,6 @@
 """
 Handle backend specific implementations.
 """
-
 def message_link(bot, msg):
     """
     :param bot: Plugin instance.
@@ -20,3 +19,4 @@ def message_link(bot, msg):
         return ''
     else:
         raise NotImplementedError
+        
