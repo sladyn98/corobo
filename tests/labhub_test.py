@@ -162,7 +162,7 @@ class TestLabHub(LabHubTestCase):
                 textwrap.dedent('''\
                     first line of body
                     second line of body
-                    Opened by @batman at [text]()''')
+                    Opened by @https://github.com/batman at [text]()''')
         )
 
         testbot_public.assertCommand(
@@ -177,7 +177,7 @@ class TestLabHub(LabHubTestCase):
                 'another title',
                 textwrap.dedent('''\
                     body
-                    Opened by @batman at [text]()''')
+                    Opened by @https://github.com/batman at [text]()''')
         )
 
         testbot_public.assertCommand(
@@ -206,6 +206,16 @@ class TestLabHub(LabHubTestCase):
         self.assertTrue(LabHub.is_newcomer_issue(mock_iss))
         mock_iss.labels = ('difficulty/medium',)
         self.assertFalse(LabHub.is_newcomer_issue(mock_iss))
+
+    def test_profile_link(self):
+        msg = create_autospec(Message)
+        msg.frm.nick = PropertyMock()
+        msg.frm.nick = ('@sladyn98')
+        self.assertEqual(LabHub.profile_link(msg),
+                         'https://github.com/sladyn98')
+        msg.frm.nick = ('@sladyn98_gitlab')
+        self.assertEqual(LabHub.profile_link(msg),
+                         'https://gitlab.com/sladyn98')
 
     def test_unassign_cmd(self):
         self.inject_mocks('LabHub', {'REPOS': {'example': self.mock_repo}})

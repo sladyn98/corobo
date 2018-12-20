@@ -206,7 +206,7 @@ class LabHub(DefaultConfigMixin, BotPlugin):
         iss_title = match.group(2)
         iss_description = match.group(3) if match.group(3) is not None else ''
         extra_msg = '\nOpened by @{username} at [{backend}]({msg_link})'.format(
-            username=user,
+            username=self.profile_link(msg),
             backend=self.bot_config.BACKEND,
             msg_link=message_link(self, msg)
         )
@@ -221,6 +221,17 @@ class LabHub(DefaultConfigMixin, BotPlugin):
             ).render(
                 target=user,
             )
+
+    @staticmethod
+    def profile_link(msg):
+        gitter_username = msg.frm.nick
+        if '_gitlab' in gitter_username:
+            pattern = '^(.*)(_.*?)$'
+            username = re.match(
+                pattern, gitter_username.split('@')[-1]).group(1)
+        else:
+            username = gitter_username.split('@')[-1]
+        return 'https://github.com/{user}'.format(user=username)
 
     @staticmethod
     def is_newcomer_issue(iss):
