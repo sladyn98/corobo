@@ -207,13 +207,6 @@ class TestLabHub(LabHubTestCase):
         mock_iss.labels = ('difficulty/medium',)
         self.assertFalse(LabHub.is_newcomer_issue(mock_iss))
 
-    def test_profile_link(self):
-        msg = create_autospec(Message)
-        msg.frm.nick = PropertyMock()
-        msg.frm.nick = ('@sladyn98')
-        self.assertEqual(LabHub.profile_link(self, msg),
-                         'https://github.com/sladyn98')
-
     def test_unassign_cmd(self):
         self.inject_mocks('LabHub', {'REPOS': {'example': self.mock_repo}})
         mock_iss = create_autospec(IGitt.GitHub.GitHubIssue)
