@@ -12,4 +12,5 @@ class Lmgtfy(BotPlugin):
                template='lmgtfy.jinja2')
     def lmgtfy(self, msg, match):
         """I'm lazy, please google for me."""  # Ignore QuotesBear
-        return {'query': match.group(1)}
+        return {'query': match.group(1),
+                'user': msg.frm.nick}

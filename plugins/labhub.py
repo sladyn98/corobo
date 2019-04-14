@@ -257,9 +257,9 @@ class LabHub(DefaultConfigMixin, BotPlugin):
         else:
             if user in iss.assignees:
                 iss.unassign(user)
-                yield '@{}, you are unassigned now :+1:'.format(user)
+                yield 'Hey @{}, you are unassigned now :+1:'.format(user)
             else:
-                yield 'You are not an assignee on the issue.'
+                yield 'Hey @{}, you are not an assignee on the issue.'.format(user)
 
     @re_botcmd(pattern=r'mark\s+(wip|pending(?:(?:-|\s+)review)?\b)\s+https://(github|gitlab)\.com/([^/]+)/([^/]+)/(pull|merge_requests)/(\d+)',  # Ignore LineLengthBear, PyCodeStyleBear
                re_cmd_name_help='mark (wip|pending) <complete-PR-URL>',
@@ -333,7 +333,7 @@ class LabHub(DefaultConfigMixin, BotPlugin):
         try:
             assert org == self.GH_ORG_NAME or org == self.GL_ORG_NAME
         except AssertionError:
-            yield 'Repository not owned by our org.'
+            yield '@{}, repository not owned by our org.'.format(user)
             return
 
         checks = []
@@ -409,17 +409,19 @@ class LabHub(DefaultConfigMixin, BotPlugin):
             if not iss.assignees:
                 if eligible(user, iss):
                     iss.assign(user)
-                    yield ('Congratulations! You\'ve been assigned to the '
-                           'issue. :tada:')
+                    yield ('@{}, congratulations! You\'ve been assigned to the '
+                           'issue. :tada:'.format(user))
                 else:
-                    yield 'You are not eligible to be assigned to this issue.'
+                    yield ('@{}, You are not eligible to be assigned to this'
+                           'issue.'.format(user))
                     yield tenv().get_template(
                         'labhub/errors/not-eligible.jinja2.md'
                     ).render(
                         organization=self.GH_ORG_NAME,
                     )
             elif user in iss.assignees:
-                yield ('The issue is already assigned to you.')
+                yield ('@{}, the issue is already assigned to you.'
+                       .format(user))
             else:
                 yield tenv().get_template(
                     'labhub/errors/already-assigned.jinja2.md'
