@@ -213,6 +213,12 @@ class LabHub(DefaultConfigMixin, BotPlugin):
 
         if repo_name in self.REPOS:
             repo = self.REPOS[repo_name]
+            issue_list = list(repo.search_issues())
+            for issue in issue_list:
+                if iss_title == issue.title:
+                    yield 'An issue with same title already exists{}'
+                    .format(issue.web_url)
+                    return
             iss = repo.create_issue(iss_title, iss_description + extra_msg)
             yield 'Here you go: {}'.format(iss.web_url)
         else:
