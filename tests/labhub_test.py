@@ -199,6 +199,14 @@ class TestLabHub(LabHubTestCase):
             'You need to be a member of this organization to use this command.'
         )
 
+        # issue title already exists
+        mock_iss = create_autospec(IGitt.GitHub.GitHubIssue)
+        mock_iss.title = PropertyMock()
+        mock_iss.title = ('title',)
+        testbot_public.assertCommand(
+            '!!new issue coala title',
+            'An issue with same title already exists')
+
     def test_is_newcomer_issue(self):
         mock_iss = create_autospec(IGitt.GitHub.GitHubIssue)
         mock_iss.labels = PropertyMock()
