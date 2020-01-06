@@ -412,7 +412,7 @@ class LabHub(DefaultConfigMixin, BotPlugin):
                     yield ('@{}, congratulations! You\'ve been assigned to the '
                            'issue. :tada:'.format(user))
                 else:
-                    yield ('@{}, You are not eligible to be assigned to this'
+                    yield ('@{}, You are not eligible to be assigned to this '
                            'issue.'.format(user))
                     yield tenv().get_template(
                         'labhub/errors/not-eligible.jinja2.md'

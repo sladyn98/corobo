@@ -368,7 +368,7 @@ class TestLabHub(LabHubTestCase):
 
         # unknown org
         testbot.assertCommand(cmd.format('coa', 'a', '23'),
-                              'Repository not owned by our org.')
+                              'repository not owned by our org.')
 
         # no assignee, newcomer, difficulty/newcomer, second newcomer issue
         mock_issue.assignees = tuple()
